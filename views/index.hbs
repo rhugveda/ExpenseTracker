@@ -1,0 +1,62 @@
+<!-- Firebase App is always required and must be first -->
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-app.js"></script>
+
+<!-- Add additional services that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-messaging.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-functions.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDEqR-tbCFvOiSbZVxfE5p827c_AE1ZNJo",
+    authDomain: "expensetracker-b8706.firebaseapp.com",
+    databaseURL: "https://expensetracker-b8706.firebaseio.com",
+    projectId: "expensetracker-b8706",
+    storageBucket: "expensetracker-b8706.appspot.com",
+    messagingSenderId: "263629388387"
+  };
+  firebase.initializeApp(config);
+
+    function login()
+    {
+       
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+
+        firebase.auth().signInWithEmailAndPassword(email, password).then(()=> {
+            alert("Successfully logged in!!");
+            window.location = "/";
+        }).catch((error)=> {
+  // Handle Errors here.
+            alert(error);
+  //
+});
+    }//login
+
+   
+   
+   
+
+  
+</script>
+
+
+<div class="login">
+
+    <label>Enter Email:  </label>
+    <input type="email" id="email"><br>
+
+    <label>Enter your Password: </label>
+    <input type="password" id="password"><br>
+
+    <button onclick="login();"> Login </button>
+    <a href="register"> <button type="button" onClick="" > Register  </button> </a> <br>
+
+
+    <a href="/forgot-password" > <button type="button" > Forgot Password ?  </button> </a>
+</div>
+

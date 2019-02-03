@@ -1,0 +1,101 @@
+<!-- Firebase App is always required and must be first -->
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-app.js"></script>
+
+<!-- Add additional services that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-messaging.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-functions.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDEqR-tbCFvOiSbZVxfE5p827c_AE1ZNJo",
+    authDomain: "expensetracker-b8706.firebaseapp.com",
+    databaseURL: "https://expensetracker-b8706.firebaseio.com",
+    projectId: "expensetracker-b8706",
+    storageBucket: "expensetracker-b8706.appspot.com",
+    messagingSenderId: "263629388387"
+  };
+  firebase.initializeApp(config);
+
+function register()
+    {
+        var firstName = document.getElementById("fname").value;
+        var laststName = document.getElementById("lname").value;
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("cpassword").value;
+
+        if(password.length < 8)
+        {
+            alert("invalid password");
+            document.getElementById("error-password").innerHTML="Password Invalid!!";
+        }    
+        
+        else{
+                 firebase.auth().createUserWithEmailAndPassword(email, password).then(()=> {
+            alert("Account created!!");
+            window.location = "/login";
+        }).catch((error)=> {
+  // Handle Errors here.
+            alert(error);
+  
+  // 
+});
+        }//else
+
+        var actionCodeSettings = {
+             // URL you want to redirect back to. The domain (www.example.com) for this
+            // URL must be whitelisted in the Firebase Console.
+             url: '/login',
+                // This must be true.
+                handleCodeInApp: true,
+                
+                 dynamicLinkDomain: 'example.page.link'
+                    };
+
+
+                firebase.auth().sendSignInLinkToEmail("desaihugveda21@gmail.com", actionCodeSettings)
+                .then(function() {
+                // The link was successfully sent. Inform the user.
+                // Save the email locally so you don't need to ask the user for it again
+                // if they open the link on the same device.
+                window.localStorage.setItem('emailForSignIn', "desaihugveda21@gmail.com");
+                })
+                .catch(function(error) {
+                alert(error);
+                });
+
+        //email verification
+        //firebase.auth().sendEmailVerification("desairhugveda21@gmail.com");
+
+       
+    }//register
+  
+</script>
+
+<div class="register">
+
+    
+    <label>Enter First name:  </label>
+    <input type="text" id="fname" required><br>
+
+    <label>Enter Last name:  </label>
+    <input type="text" id="lname" required><br>
+
+    <label>Enter Email:  </label>
+    <input type="email" id="email" required><br>
+
+    <div id="error-password"> </div>
+    <label>Enter your Password: </label>
+    <input type="password" id="password" required><br>
+
+    <label>Confirm your Password: </label>
+    <input type="password" id="cpassword" required><br>
+
+    <button onclick="register();"> Register </button>
+
+</div>
