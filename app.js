@@ -5,14 +5,31 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 //firebase
-var admin = require('firebase-admin');
-var serviceAccount = require('D:/ExpenseTracker/expensetracker-951e5-firebase-adminsdk-5tl1x-0717ef971c.json');
+// var admin = require('firebase-admin');
+// var serviceAccount = require('D:/ExpenseTracker/expensetracker-951e5-firebase-adminsdk-5tl1x-0717ef971c.json');
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://expensetracker-b8706.firebaseio.com/'
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: 'https://expensetracker-b8706.firebaseio.com/'
+// });
+
+
+var firebase = require('firebase');
+var config = {
+  apiKey: "AIzaSyDEqR-tbCFvOiSbZVxfE5p827c_AE1ZNJo",
+  authDomain: "expensetracker-b8706.firebaseapp.com",
+  databaseURL: "https://expensetracker-b8706.firebaseio.com",
+  projectId: "expensetracker-b8706",
+  storageBucket: "expensetracker-b8706.appspot.com",
+  messagingSenderId: "263629388387"
+};
+firebase.initializeApp(config);
+
+
 //// 
+
+
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');

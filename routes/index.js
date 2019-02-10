@@ -1,7 +1,7 @@
 var express = require('express');
-
+var firebase = require('firebase');
 var router = express.Router();
-
+const { AdminController } = require("../controllers/admin-controller");
 
 /* GET home page. */
 router.get('/login', function(req, res, next) {
@@ -15,6 +15,19 @@ router.get('/register', function(req, res, next) {
 router.get('/forgot-password', function(req, res, next) {
   res.render('forgot-password');
 });
+
+router.get('/add-items', new AdminController().show_add_items );
+// router.get('/add-items', function (req, res) {
+  
+//   console.log("HTTP Get Request");
+//   //res.send("HTTP GET Request");
+//   //Insert key,value pair to database
+//   firebase.database().ref('/items').set({item_name: 'GET Request'});
+  
+// });
+
+
+router.post('/admin-dashboard', new AdminController().add_items);
 // router.post('/register-user', function(req, res, next) {
 //   var firstName = req.body.fname;
 //   var lastName = req.body.lname;
