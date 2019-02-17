@@ -1,0 +1,81 @@
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"> </script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"> </script>
+ <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+
+<table id="items" name="items" border="1px"> 
+    <thead>
+            <tr>
+                <th>Item_Name</th>
+                <th>Item_Cost</th>
+                <th>Item_Quantity</th>
+                <th> </th>
+                <th> </th>
+               
+            </tr>
+        </thead>
+
+  <tbody>
+    {{#each items}}
+   
+            <tr>
+        <td>{{item_name}}</td>
+        <td>{{item_cost}}</td>
+        <td>{{item_quantity}}</td>
+        <td><button id="edit" class="edit" name="edit" >Edit</button></td>
+        <td><button id="delete" class="delete" name="delete" >Delete</button></td>
+    </tr>
+   
+    {{/each}}
+ </tbody>
+</table>
+
+<script> 
+  $(document).ready(function() {
+
+    $('#items').DataTable({
+       initComplete: function () {
+
+        //{{!-- //$('#items tbody').on('click', '.edit', function () {
+
+         //var data_row = table.row( $(this).parents('tr') ).data(); // here is the change
+          //$("#myModal").modal('show');
+
+          //$('#myModal').on('shown.bs.modal', function() {
+
+            //$('#name').val(data_row.id);
+            //$(//'#type').val(data_row.type);
+            //$('#camp').html(data_row.campaign); --}}
+
+          $(document).on('click', '.edit', function() {
+        $('#footer_action_button').text(" Update");
+        $('#footer_action_button').addClass('glyphicon-check');
+        $('#footer_action_button').removeClass('glyphicon-trash');
+        $('.actionBtn').addClass('btn-success');
+        $('.actionBtn').removeClass('btn-danger');
+        $('.actionBtn').removeClass('delete');
+        $('.actionBtn').addClass('edit');
+        $('.modal-title').text('Edit');
+        $('.deleteContent').hide();
+        $('.form-horizontal').show();
+        var stuff = $(this).data('info').split(',');
+        fillmodalData(stuff)
+        $('#myModal').modal('show');
+    });
+    });
+
+});
+       }
+    });
+} );
+
+function fillmodalData(details){
+    $('#fid').val(details[0]);
+    $('#fname').val(details[1]);
+    $('#lname').val(details[2]);
+    $('#email').val(details[3]);
+    $('#gender').val(details[4]);
+    $('#country').val(details[5]);
+    $('#salary').val(details[6]);
+}
+</script>
