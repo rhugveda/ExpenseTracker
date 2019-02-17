@@ -19,6 +19,15 @@ router.get('/forgot-password', function(req, res, next) {
 router.post('/admin-dashboard', new AdminController().add_items);
 router.get('/add-items', new AdminController().show_add_items );
 router.get('/show-all-items', new AdminController().show_all_items );
+router.post('/edit-items', new AdminController().edit_items); 
+router.post('/delete-items',new AdminController().delete_items);
+//router.get('/edit_items', new AdminController().edit_items );
+//router.get('/edit_items/:item_name&:item_cost&:item_quantity', function(req, res) {
+//  console.log('user' + req.params.name);    
+// });
+
+
+
 // router.get('/add-items', function (req, res) {
   
 //   console.log("HTTP Get Request");

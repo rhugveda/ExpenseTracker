@@ -1,8 +1,18 @@
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
-<script src="https://code.jquery.com/jquery-3.3.1.js"> </script>
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+
+
+{{!-- <script src="https://code.jquery.com/jquery-3.3.1.js"> </script> --}}
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"> </script>
  <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
-
+<div id="table-items">
 <table id="items" name="items" border="1px"> 
     <thead>
             <tr>
@@ -23,59 +33,145 @@
         <td>{{item_cost}}</td>
         <td>{{item_quantity}}</td>
         <td><button id="edit" class="edit" name="edit" >Edit</button></td>
-        <td><button id="delete" class="delete" name="delete" >Delete</button></td>
+        <td><button id="delete" class="delete" name="delete" >Delete</button></a>
     </tr>
    
     {{/each}}
  </tbody>
 </table>
+</div>
+
+
+<!--MODAL -->
+    <div class="modal fade region-add-modal" id="edit_category_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <form action="/edit-items" method="post" >
+     
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h6 class="modal-title">Edit Facets</h6>
+            </div>
+            <div class="modal-body">
+              <div class="form-group m-b-20">
+             
+              <label>Item Name  <span class="text-danger">*</span></label>
+              <input type="text" class="form-control fnb-input" name="item_name" id="item_name" placeholder="Item Name" readonly>
+            </div>
+
+            <div class="form-group m-b-20">
+            
+              <label>Item Cost  <span class="text-danger">*</span></label>
+               <input type="text" class="form-control fnb-input" name="item_cost" id="item_cost" placeholder="Enter Item Cost">
+            </div>
+
+            <div class="form-group m-b-20">
+            
+              <label>Item Quantity  <span class="text-danger">*</span></label>
+               <input type="text" class="form-control fnb-input" name="item_quantity" id="item_quantity" placeholder="Enter Item Quantity">
+            </div>
+
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn fnb-btn outline no-border" data-dismiss="modal">Cancel</button>
+            <button type="submit" name="update" id="update" class="btn primary-btn fnb-btn no-radius">Save</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div> <!-- modals closed -->
+
+
+<!--MODAL -->
+    <div class="modal fade region-add-modal" id="delete_item_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <form action="/delete-items" method="post" >
+     
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h6 class="modal-title">Delete Item</h6>
+            </div>
+            <div class="modal-body">
+              <div class="form-group m-b-20">
+             
+              <label>Sure you want to delete?  <span class="text-danger">*</span></label>
+              <input type="text" class="form-control fnb-input" name="item_name_delete" id="item_name_delete" placeholder="Item Name" readonly>
+            </div>
+
+            <div>
+            <button type="submit" name="yes_delete" id="yes_delete" class="btn primary-btn fnb-btn no-radius">Yes</button>
+            <button type="button" class="btn fnb-btn outline no-border" data-dismiss="modal">No</button>
+            </div>
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn fnb-btn outline no-border" data-dismiss="modal">Cancel</button>
+           
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div> <!-- modals closed -->
+
+
 
 <script> 
-  $(document).ready(function() {
+$(document).ready(function() {
+  
+  var table=$('#items').DataTable({
+   
+      initComplete: function (){
+        //modals
+        var api = this.api();
+        api.$('#edit').click( function () {
+           var row  = $(this).parents('tr')[0];
+           //for row data
+           var stuff= table.row( row ).data() ;
+                   
+          console.log("hey! ",stuff); 
+          fillmodalData(stuff); //calling function to fill the data in modal
 
-    $('#items').DataTable({
-       initComplete: function () {
+          $("#edit_category_modal").modal(); //popping up the modal
+          } ); //editB
 
-        //{{!-- //$('#items tbody').on('click', '.edit', function () {
 
-         //var data_row = table.row( $(this).parents('tr') ).data(); // here is the change
-          //$("#myModal").modal('show');
+        
+        api.$('#delete').click( function () {
+           var row  = $(this).parents('tr')[0];
+           //for row data
+           var stuff= table.row( row ).data() ;
+            console.log("hey! ",stuff[0]);
+          fillmodalDeleteData(stuff[0]); //calling function to fill the data in modal
 
-          //$('#myModal').on('shown.bs.modal', function() {
+          $("#delete_item_modal").modal(); //popping up the modal
+           
+         
+          } ); //editB
 
-            //$('#name').val(data_row.id);
-            //$(//'#type').val(data_row.type);
-            //$('#camp').html(data_row.campaign); --}}
 
-          $(document).on('click', '.edit', function() {
-        $('#footer_action_button').text(" Update");
-        $('#footer_action_button').addClass('glyphicon-check');
-        $('#footer_action_button').removeClass('glyphicon-trash');
-        $('.actionBtn').addClass('btn-success');
-        $('.actionBtn').removeClass('btn-danger');
-        $('.actionBtn').removeClass('delete');
-        $('.actionBtn').addClass('edit');
-        $('.modal-title').text('Edit');
-        $('.deleteContent').hide();
-        $('.form-horizontal').show();
-        var stuff = $(this).data('info').split(',');
-        fillmodalData(stuff)
-        $('#myModal').modal('show');
-    });
-    });
 
-});
-       }
-    });
-} );
+      } //initcomplete
+  } ); //items
+});//datatable            
+//function to fill the modal with data
+function fillmodalData(details)
+{
+  $('#item_name').val(details[0]);
+  $('#item_cost').val(details[1]);
+  $('#item_quantity').val(details[2]);
+  
+}
+function fillmodalDeleteData(details){
+  $('#item_name_delete').val(details);
+}
+function completeAndRedirect(){
+   var item_name = document.getElementById("item_name").value;
+        var item_cost = document.getElementById("item_cost").value;
+        var item_quantity = document.getElementById("item_quantity").value;
+       //window.location = "/edit_items"+item_name+item_cost+item_quantity;
 
-function fillmodalData(details){
-    $('#fid').val(details[0]);
-    $('#fname').val(details[1]);
-    $('#lname').val(details[2]);
-    $('#email').val(details[3]);
-    $('#gender').val(details[4]);
-    $('#country').val(details[5]);
-    $('#salary').val(details[6]);
+       window.location = "edit_items?item_name="+item_name+"&item_cost="+item_cost+"&item_quantity="+item_quantity;
 }
 </script>
