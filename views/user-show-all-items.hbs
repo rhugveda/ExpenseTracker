@@ -1,0 +1,146 @@
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+
+
+{{!-- <script src="https://code.jquery.com/jquery-3.3.1.js"> </script> --}}
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"> </script>
+ <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+<div id="table-items">
+<table id="items" name="items" border="1px"> 
+    <thead>
+            <tr>
+                <th>Item_Name</th>
+                <th>Item_Cost</th>
+                <th>Item_Quantity</th>
+                <th> </th>
+            </tr>
+        </thead>
+
+  <tbody>
+    {{#each items}}
+   
+            <tr>
+        <td>{{item_name}}</td>
+        <td>{{item_cost}}</td>
+        <td>{{item_quantity}}</td>
+        <td><button id="place_order" class="place_order" name="place_order" >Place Order</button></td>
+    </tr>
+   
+    {{/each}}
+ </tbody>
+</table>
+</div>
+
+
+<!--MODAL -->
+    <div class="modal fade region-add-modal" id="place_order_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <form action="/place_order" method="post" >
+     
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h6 class="modal-title">Edit Facets</h6>
+            </div>
+            <div class="modal-body">
+              <div class="form-group m-b-20">
+             
+              <label>Item Name  <span class="text-danger">*</span></label>
+              <input type="text" class="form-control fnb-input" name="item_name" id="item_name" placeholder="Item Name" readonly>
+            </div>
+
+            <div class="form-group m-b-20">
+            
+              <label>Item Cost  <span class="text-danger">*</span></label>
+               <input type="text" class="form-control fnb-input" name="item_cost" id="item_cost" placeholder="Enter Item Cost" required>
+            </div>
+
+            <div class="form-group m-b-20">
+            
+              <label>Item Quantity  <span class="text-danger">*</span></label>
+               <input type="number" min="1" max ="" class="form-control fnb-input" name="item_quantity" id="item_quantity" placeholder="Select Item Quantity" required>
+            </div>
+
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn fnb-btn outline no-border" data-dismiss="modal">Cancel</button>
+            <button type="submit" name="update" id="update" class="btn primary-btn fnb-btn no-radius">Place Order</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div> <!-- modals closed -->
+
+
+
+
+
+
+<script> 
+$(document).ready(function() {
+  
+  var table=$('#items').DataTable({
+   
+      initComplete: function (){
+        //modals
+        var api = this.api();
+        api.$('#place_order').click( function () {
+           var row  = $(this).parents('tr')[0];
+           //for row data
+           var stuff= table.row( row ).data() ;
+                   
+          console.log("hey! ",stuff); 
+          fillmodalData(stuff); //calling function to fill the data in modal
+
+          $("#place_order_modal").modal(); //popping up the modal
+          } ); //editB
+
+
+        
+        api.$('#delete').click( function () {
+           var row  = $(this).parents('tr')[0];
+           //for row data
+           var stuff= table.row( row ).data() ;
+            console.log("hey! ",stuff[0]);
+          fillmodalDeleteData(stuff[0]); //calling function to fill the data in modal
+
+          $("#delete_item_modal").modal(); //popping up the modal
+           
+         
+          } ); //editB
+
+
+
+      } //initcomplete
+  } ); //items
+});//datatable            
+//function to fill the modal with data
+function fillmodalData(details)
+{
+  $('#item_name').val(details[0]);
+  $('#item_cost').val(details[1]);
+  $('#item_quantity').val("1");
+  var item_quantity = document.getElementById("item_quantity");
+  item_quantity.setAttribute("max",details[2]); // set a new value;
+  
+}
+function fillmodalDeleteData(details){
+  $('#item_name_delete').val(details);
+}
+function completeAndRedirect(){
+   var item_name = document.getElementById("item_name").value;
+        var item_cost = document.getElementById("item_cost").value;
+        var item_quantity = document.getElementById("item_quantity").value;
+       //window.location = "/edit_items"+item_name+item_cost+item_quantity;
+
+       window.location = "edit_items?item_name="+item_name+"&item_cost="+item_cost+"&item_quantity="+item_quantity;
+}
+</script>

@@ -33,27 +33,45 @@ class AdminController
         });
     }
 
-    edit_items(req,res){
+    user_show_all_items(req,res){
+        Items.display_all_items().then((items)=>{
+            //items.forEach(element =>(console.log("hello")));
+          res.render("user-show-all-items",{items:items})
+        }).catch((error)=>{
+            console.log(error);
+        });
+    }
 
-      console.log(req.body.item_name);
-      Items.edit_items(req.body.item_name,req.body.item_cost,req.body.item_quantity).then((items)=>{
+    edit_items(req,res){
+        Items.edit_items(req.body.item_name,req.body.item_cost,req.body.item_quantity).then((items)=>{
         //items.forEach(element =>(console.log("hello")));
-      res.render("show-all-items",{items:items})
+      res.redirect("show-all-items",{items:items})
     }).catch((error)=>{
         console.log(error);
     });
     }
 
     delete_items(req,res){
-        
-              console.log(req.body.item_name);
-              Items.delete_items(req.body.item_name).then((items)=>{
-                //items.forEach(element =>(console.log("hello")));
-              res.render("show-all-items",{items:items})
-            }).catch((error)=>{
-                console.log(error);
-            });
-            }
+        Items.delete_items(req.body.item_name).then((items)=>{
+        //items.forEach(element =>(console.log("hello")));
+        res.redirect("show-all-items",{items:items})
+    }).catch((error)=>{
+        console.log(error);
+    });
+    }
 
+    place_order(req,res){
+       Items.place_order(req.body.item_name,req.body.item_cost,req.body.item_quantity).then((items)=>{
+        //items.forEach(element =>(console.log("hello")));
+        res.redirect("show-all-items",{items:items})
+    }).catch((error)=>{
+        console.log(error);
+    });
+
+    }
+
+    get_user_info(req,res){
+        console.log(req.body.user_info);
+    }
 }
 module.exports = {AdminController};

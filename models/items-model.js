@@ -66,7 +66,6 @@ return snap.val();
     }
 
     async function delete_items(item_name){
-        console.log("hello bhbf"+item_name);
         var items = await firebase.database().ref('/items');
         items.child(item_name).remove();
      
@@ -76,4 +75,21 @@ return snap.val();
         return snap.val();
     }
 
-    module.exports = { add_items,getData,display_all_items,edit_items,delete_items };
+    async function place_order(item_name,item_cost,item_quantity){
+        var items = await firebase.database().ref('/items');
+        var total_cost = item_cost * item_quantity ; 
+        console.log("cost: ",total_cost);
+        // firebase.database().ref('/items/' + item_name).set({
+        //     ordered_item_name: item_name,
+        //     ordered_item_cost: item_cost,
+        //     ordered_item_quantity : item_quantity,
+        //     ordered_item_total_cost : total_cost,
+        //   });
+        
+        console.log( firebase.auth().currentUser );
+        var items = await firebase.database().ref("/items");
+        const snap = await items.once('value');
+        return snap.val();
+    }
+
+    module.exports = { add_items,getData,display_all_items,edit_items,delete_items,place_order };

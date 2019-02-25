@@ -16,13 +16,18 @@ router.get('/forgot-password', function(req, res, next) {
   res.render('forgot-password');
 });
 
-router.post('/admin-dashboard', new AdminController().add_items);
+router.get('/user-show-all-items', new AdminController().user_show_all_items);
+
+router.post('/admin-dashboard', new AdminController().add_items); 
 router.get('/add-items', new AdminController().show_add_items );
 router.get('/show-all-items', new AdminController().show_all_items );
 router.post('/edit-items', new AdminController().edit_items); 
 router.post('/delete-items',new AdminController().delete_items);
-//router.get('/edit_items', new AdminController().edit_items );
-//router.get('/edit_items/:item_name&:item_cost&:item_quantity', function(req, res) {
+router.post('/place_order', new AdminController().place_order );
+router.post('/user-profile', function(req, res, next) {
+  console.log(req.body.user_info);
+});
+//router.get('/edit_items/:item_ name&:item_cost&:item_quantity', function(req, res) {
 //  console.log('user' + req.params.name);    
 // });
 
