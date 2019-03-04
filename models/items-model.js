@@ -92,4 +92,17 @@ return snap.val();
         return snap.val();
     }
 
-    module.exports = { add_items,getData,display_all_items,edit_items,delete_items,place_order };
+    async function add_user(email)
+    {
+       console.log("hello");
+        firebase.database().ref('/users/'+"rhugveda").set({
+                        
+                        email: email,
+                        
+                    });
+                  
+            
+    return 1;
+    
+    }//async function
+    module.exports = { add_items,getData,display_all_items,edit_items,delete_items,place_order,add_user };

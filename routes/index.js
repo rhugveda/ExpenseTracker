@@ -24,9 +24,7 @@ router.get('/show-all-items', new AdminController().show_all_items );
 router.post('/edit-items', new AdminController().edit_items); 
 router.post('/delete-items',new AdminController().delete_items);
 router.post('/place_order', new AdminController().place_order );
-router.post('/user-profile', function(req, res, next) {
-  console.log(req.body.user_info);
-});
+router.post('/user-profile', new AdminController().add_user );
 //router.get('/edit_items/:item_ name&:item_cost&:item_quantity', function(req, res) {
 //  console.log('user' + req.params.name);    
 // });

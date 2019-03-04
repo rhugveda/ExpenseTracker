@@ -30,11 +30,11 @@
         var password = document.getElementById("password").value;
 
         firebase.auth().signInWithEmailAndPassword(email, password).then(()=> {
-            var user = firebase.auth().currentUser;
-            $.post('/user-profile',{ user_info: user },function(data,status,xhr)
-            {
-                alert('Status: '+status + ',data: '+data.responseData);
-            },'json');
+            $.post('/user-profile',{ user_info: email });
+            //,function(data,status,xhr)
+            //{
+             //   alert('Status: '+status + ',data: '+data.responseData);
+            //},'json');
                         
             alert("Successfully logged in!!");
 

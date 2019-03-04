@@ -70,8 +70,14 @@ class AdminController
 
     }
 
-    get_user_info(req,res){
-        console.log(req.body.user_info);
+    add_user(req,res){
+       Items.add_user(req.body.user_info).then((items)=>{
+        //items.forEach(element =>(console.log("hello")));
+        //res.redirect("show-all-items",{items:items})
+    }).catch((error)=>{
+        console.log(error);
+    });
+
     }
 }
 module.exports = {AdminController};

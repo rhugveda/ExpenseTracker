@@ -24,7 +24,7 @@
 function register()
     {
         var firstName = document.getElementById("fname").value;
-        var laststName = document.getElementById("lname").value;
+        var lastName = document.getElementById("lname").value;
         var email = document.getElementById("email").value;
         var password = document.getElementById("password").value;
         var confirmPassword = document.getElementById("cpassword").value;
@@ -36,7 +36,16 @@ function register()
         }    
         
         else{
-                 firebase.auth().createUserWithEmailAndPassword(email, password).then(()=> {
+            
+            
+                firebase.auth().createUserWithEmailAndPassword(email, password).then((user)=> {
+                    console.log(user);
+                     firebase.database().ref('/users/'+firstName).set({
+                    
+                    first_name: firstName,
+                    last_name: lastName,
+                   
+                });
             alert("Account created!!");
             window.location = "/login";
         }).catch((error)=> {
