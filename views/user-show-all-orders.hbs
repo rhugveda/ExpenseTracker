@@ -37,24 +37,27 @@
   
   <a href="show-my-orders"> <button id="show_my_orders" class="show_my_orders" name="show_my_orders" >Show my orders</button> </a> 
 
-<table id="items" name="items" border="1px"> 
+<table id="orders" name="orders" border="1px"> 
     <thead>
             <tr>
-                <th>Item_Name</th>
-                <th>Item_Cost</th>
-                <th>Item_Quantity</th>
-                <th> </th>
-            </tr>
+                <th>Ordered Item Name</th>
+                <th>Ordered Item Cost</th>
+                <th>Ordered Item Quantity</th>
+                <th>Ordered Item Total Cost</th>
+                <th>Ordered Item Time</th>
+           </tr>
         </thead>
 
   <tbody>
-    {{#each items}}
+    {{#each orders}}
    
             <tr>
-        <td>{{item_name}}</td>
-        <td>{{item_cost}}</td>
-        <td>{{item_quantity}}</td>
-        <td><button id="place_order" class="place_order" name="place_order" >Place Order</button></td>
+        <td>{{ordered_item_name}}</td>
+        <td>{{ordered_item_cost}}</td>
+        <td>{{ordered_item_quantity}}</td>
+        <td>{{ordered_item_total_cost}}</td>
+        <td>{{ordered_time}}</td>
+        
     </tr>
    
     {{/each}}
@@ -111,60 +114,15 @@
 <script> 
 $(document).ready(function() {
   
-  var table=$('#items').DataTable({
+  var table=$('#orders').DataTable({
    
       initComplete: function (){
         //modals
         var api = this.api();
-        api.$('#place_order').click( function () {
-           var row  = $(this).parents('tr')[0];
-           //for row data
-           var stuff= table.row( row ).data() ;
-                   
-          console.log("hey! ",stuff); 
-          fillmodalData(stuff); //calling function to fill the data in modal
-
-          $("#place_order_modal").modal(); //popping up the modal
-          } ); //editB
-
-
         
-        api.$('#delete').click( function () {
-           var row  = $(this).parents('tr')[0];
-           //for row data
-           var stuff= table.row( row ).data() ;
-            console.log("hey! ",stuff[0]);
-          fillmodalDeleteData(stuff[0]); //calling function to fill the data in modal
-
-          $("#delete_item_modal").modal(); //popping up the modal
-           
-         
-          } ); //editB
-
-
-
       } //initcomplete
   } ); //items
 });//datatable            
-//function to fill the modal with data
-function fillmodalData(details)
-{
-  $('#item_name').val(details[0]);
-  $('#item_cost').val(details[1]);
-  $('#item_quantity').val("1");
-  var item_quantity = document.getElementById("item_quantity");
-  item_quantity.setAttribute("max",details[2]); // set a new value;
-  
-}
-function fillmodalDeleteData(details){
-  $('#item_name_delete').val(details);
-}
-function completeAndRedirect(){
-   var item_name = document.getElementById("item_name").value;
-        var item_cost = document.getElementById("item_cost").value;
-        var item_quantity = document.getElementById("item_quantity").value;
-       //window.location = "/edit_items"+item_name+item_cost+item_quantity;
 
-       window.location = "edit_items?item_name="+item_name+"&item_cost="+item_cost+"&item_quantity="+item_quantity;
-}
+
 </script>

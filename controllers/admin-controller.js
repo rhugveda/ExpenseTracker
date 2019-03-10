@@ -34,12 +34,24 @@ class AdminController
     }
 
     user_show_all_items(req,res){
+        
         Items.display_all_items().then((items)=>{
             //items.forEach(element =>(console.log("hello")));
           res.render("user-show-all-items",{items:items})
         }).catch((error)=>{
             console.log(error);
         });
+    }
+
+    token(req,res){
+        global.uid = req.body.token;
+        console.log("uid: ",uid);
+        // Items.display_all_items().then((items)=>{
+        //     //items.forEach(element =>(console.log("hello")));
+        //   res.render("user-show-all-items",{items:items})
+        // }).catch((error)=>{
+        //     console.log(error);
+        // });
     }
 
     edit_items(req,res){
@@ -53,7 +65,6 @@ class AdminController
 
     delete_items(req,res){
         Items.delete_items(req.body.item_name).then((items)=>{
-        //items.forEach(element =>(console.log("hello")));
         res.redirect("show-all-items",{items:items})
     }).catch((error)=>{
         console.log(error);
@@ -62,8 +73,7 @@ class AdminController
 
     place_order(req,res){
        Items.place_order(req.body.item_name,req.body.item_cost,req.body.item_quantity).then((items)=>{
-        //items.forEach(element =>(console.log("hello")));
-        res.redirect("show-all-items",{items:items})
+        res.redirect("user-show-all-items")
     }).catch((error)=>{
         console.log(error);
     });
@@ -71,13 +81,22 @@ class AdminController
     }
 
     add_user(req,res){
-       Items.add_user(req.body.user_info).then((items)=>{
-        //items.forEach(element =>(console.log("hello")));
-        //res.redirect("show-all-items",{items:items})
+       global.uid = req.body.token;
+       Items.add_user(req.body.user_info,req.body.first_name,req.body.last_name,req.body.token).then((items)=>{
     }).catch((error)=>{
         console.log(error);
     });
 
     }
+
+    show_all_orders(req,res){
+        
+        Items.show_all_orders(uid).then((orders)=>{
+            res.render("user-show-all-orders",{orders:orders})
+        }).catch((error)=>{
+            console.log(error);
+        });
+    }
+
 }
 module.exports = {AdminController};

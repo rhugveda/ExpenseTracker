@@ -30,13 +30,19 @@
         var password = document.getElementById("password").value;
 
         firebase.auth().signInWithEmailAndPassword(email, password).then(()=> {
-            $.post('/user-profile',{ user_info: email });
+            var user_id = firebase.auth().currentUser.uid;
+          
+           $.post('/user-login-token',{ token: user_id});
+           // }).catch(function(error) {
+            // Handle error
+            //});
+            
             //,function(data,status,xhr)
             //{
              //   alert('Status: '+status + ',data: '+data.responseData);
             //},'json');
                         
-            alert("Successfully logged in!!");
+            //alert("Successfully logged in!!");
 
             window.location = "/user-show-all-items";
         }).catch((error)=> {

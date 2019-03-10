@@ -1,5 +1,6 @@
 <!-- Firebase App is always required and must be first -->
 <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-app.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <!-- Add additional services that you want to use -->
 <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-auth.js"></script>
@@ -39,13 +40,16 @@ function register()
             
             
                 firebase.auth().createUserWithEmailAndPassword(email, password).then((user)=> {
-                    console.log(user);
-                     firebase.database().ref('/users/'+firstName).set({
+                   var user_id = firebase.auth().currentUser.uid;
+           // firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
+            $.post('/user-profile',{ user_info: email ,first_name:firstName,last_name:lastName, token: user_id});
+                     //firebase.database().ref('/users/'+firstName).set({
                     
-                    first_name: firstName,
-                    last_name: lastName,
-                   
-                });
+                    //first_name: firstName,
+                    //last_name: lastName,
+                   //email: email,
+
+               // });
             alert("Account created!!");
             window.location = "/login";
         }).catch((error)=> {

@@ -46,9 +46,9 @@
     async function display_all_items()
     {
 
-var items = await firebase.database().ref("/items");
-const snap = await items.once('value');
-return snap.val();
+        var items = await firebase.database().ref("/items");
+        const snap = await items.once('value');
+        return snap.val();
 
     }
 
@@ -76,33 +76,44 @@ return snap.val();
     }
 
     async function place_order(item_name,item_cost,item_quantity){
-        var items = await firebase.database().ref('/items');
-        var total_cost = item_cost * item_quantity ; 
-        console.log("cost: ",total_cost);
-        // firebase.database().ref('/items/' + item_name).set({
-        //     ordered_item_name: item_name,
-        //     ordered_item_cost: item_cost,
-        //     ordered_item_quantity : item_quantity,
-        //     ordered_item_total_cost : total_cost,
-        //   });
         
-        console.log( firebase.auth().currentUser );
-        var items = await firebase.database().ref("/items");
-        const snap = await items.once('value');
-        return snap.val();
+        var total_cost = item_cost * item_quantity ; 
+        var date = new Date();
+
+        firebase.database().ref('/users/' + uid ).push({
+            ordered_item_name: item_name,
+            ordered_item_cost: item_cost,
+            ordered_item_quantity : item_quantity,
+            ordered_item_total_cost : total_cost,
+            ordered_time:new Date(Date.now()).toLocaleString(),
+          });
+          var plotly = require('plotly')("rhugveda", "PNaObyGKnhqD7E3Pj0Az")
+          var data = [{x:[0,1,2], y:[3,2,1], type: 'bar'}];
+          var layout = {fileopt : "overwrite", filename : "simple-node-example"};
+          
+          plotly.plot(data, layout, function (err, msg) {
+              if (err) return console.log(err);
+              console.log(msg);
+          });
+        return 1;
     }
 
-    async function add_user(email)
+    async function add_user(email,first_name,last_name,idToken)
     {
-       console.log("hello");
-        firebase.database().ref('/users/'+"rhugveda").set({
-                        
-                        email: email,
-                        
-                    });
-                  
-            
+        firebase.database().ref('/users/'+idToken).set({
+                email: email, 
+                first_name:first_name,
+                last_name:last_name
+         });
     return 1;
     
     }//async function
-    module.exports = { add_items,getData,display_all_items,edit_items,delete_items,place_order,add_user };
+
+    async function show_all_orders(idToken)
+    {
+        var orders = await firebase.database().ref("/users/"+idToken);
+        const snap = await orders.once('value');
+        return snap.val();
+    
+    }//async function
+    module.exports = { add_items,getData,display_all_items,edit_items,delete_items,place_order,add_user,show_all_orders };

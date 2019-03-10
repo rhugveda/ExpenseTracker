@@ -15,16 +15,25 @@ router.get('/register', function(req, res, next) {
 router.get('/forgot-password', function(req, res, next) {
   res.render('forgot-password');
 });
-
 router.get('/user-show-all-items', new AdminController().user_show_all_items);
+
+router.post('/user-login-token', new AdminController().token);
+
 
 router.post('/admin-dashboard', new AdminController().add_items); 
 router.get('/add-items', new AdminController().show_add_items );
 router.get('/show-all-items', new AdminController().show_all_items );
 router.post('/edit-items', new AdminController().edit_items); 
 router.post('/delete-items',new AdminController().delete_items);
+
 router.post('/place_order', new AdminController().place_order );
+router.get('/place_order', new AdminController().place_order );
+
 router.post('/user-profile', new AdminController().add_user );
+
+router.get('/show-my-orders',new AdminController().show_all_orders )
+
+
 //router.get('/edit_items/:item_ name&:item_cost&:item_quantity', function(req, res) {
 //  console.log('user' + req.params.name);    
 // });
