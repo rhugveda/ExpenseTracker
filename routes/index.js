@@ -8,6 +8,8 @@ router.get('/login', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.post('/login-user',new AdminController().login);
+
 router.get('/register', function(req, res, next) {
   res.render('register');
 });
@@ -33,7 +35,9 @@ router.post('/user-profile', new AdminController().add_user );
 
 router.get('/show-my-orders',new AdminController().show_all_orders )
 
+router.get('/show-all-users-orders',new AdminController().show_all_users_orders )
 
+router.get('/orders',new AdminController().single_user_order )
 //router.get('/edit_items/:item_ name&:item_cost&:item_quantity', function(req, res) {
 //  console.log('user' + req.params.name);    
 // });

@@ -1,0 +1,75 @@
+<!-- Firebase App is always required and must be first -->
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-app.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<!-- Add additional services that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-messaging.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-functions.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+<script>
+     //var admin = require('firebase-admin');
+     //var firebase = require('firebase');
+  // Initialize Firebase
+  //var config = {
+    //apiKey: "AIzaSyDEqR-tbCFvOiSbZVxfE5p827c_AE1ZNJo",
+    //authDomain: "expensetracker-b8706.firebaseapp.com",
+    //databaseURL: "https://expensetracker-b8706.firebaseio.com",
+    //projectId: "expensetracker-b8706",
+    //storageBucket: "expensetracker-b8706.appspot.com",
+    //messagingSenderId: "263629388387"
+  //};
+  //firebase.initializeApp(config);
+
+   function getUser(email)
+    { 
+      
+ 
+        admin.auth().getUserByEmail(email)
+  .then(function(userRecord) {
+    // See the UserRecord reference doc for the contents of userRecord.
+    console.log("Successfully fetched user data:", userRecord.toJSON());
+  })
+  .catch(function(error) {
+    console.log("Error fetching user data:", error);
+  });
+    }
+ </script>
+<div id="table-items">
+
+  <button id="log_out" class="log_out" name="log_out" onclick="logout();">Logout</button>
+  
+  
+<table id="orders" name="orders" border="1px"> 
+    <thead>
+            <tr>
+                <th>Ordered Item Name</th>
+                {{!-- <th>Ordered Item Cost</th>
+                <th>Ordered Item Quantity</th>
+                <th>Ordered Item Total Cost</th>
+                <th>Ordered Item Time</th> --}}
+           </tr>
+        </thead>
+
+  <tbody>
+      
+    {{#each all_users}}
+      {{#each details}}
+         <tr>
+        
+        {{!-- <td> <button onclick="getUser('{{email}}')"> {{first_name}} {{last_name}} </button> </td> --}}
+        <td> <a href="/orders?email={{email}}"> {{first_name}} {{last_name}} </a></td>
+      
+    </tr>
+   
+  {{/each}}
+    {{/each}}
+   
+ </tbody>
+</table>
+</div>
+
